@@ -4,41 +4,30 @@ from sklearn.model_selection import train_test_split
 
 print(''.join(np.repeat('\n', 10)))
 
+#Load Dataset
 path = 'cars_24_combined.csv'
-
 raw = pd.read_csv(path)
-#print(raw.head(10))
 
+#Remove NaN Values
 raw = raw.dropna()
 
+#Get Company Name
 raw['make'] = raw['Car Name'].apply(lambda x : x.split(' ')[0])
-#print(raw['make'])
 
+#One-Hot Encoding
 makes = pd.get_dummies(raw.make)
 drives = pd.get_dummies(raw.Drive)
-#print(makes)
-
 raw = pd.concat([raw, makes, drives], axis=1)
 
+#Z-score Normalization
 disSTD = np.std(raw['Distance'])
 disMU = np.mean(raw['Distance'])
 raw['Distance zscore'] = raw['Distance'].apply(lambda x : (x-disMU)/disSTD)
 
-
+#Defin X,Y & Split
 X = pd.concat([raw['Year'], raw['Distance zscore'], raw['Owner'], makes, drives],axis=1)
 y = raw['Price']
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-'''
-Data-prep:
-- Remove nan values
-'''
-
 print(X.head(10))
-
-
-
-
-
-
 print(''.join(np.repeat('-=+=-<->', 15)))

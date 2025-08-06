@@ -20,7 +20,12 @@ drives = pd.get_dummies(raw.Drive)
 
 raw = pd.concat([raw, makes, drives], axis=1)
 
-X = pd.concat([raw['Year'], raw['Distance'], raw['Owner'], makes, drives],axis=1)
+disSTD = np.std(raw['Distance'])
+disMU = np.mean(raw['Distance'])
+raw['Distance zscore'] = raw['Distance'].apply(lambda x : (x-disMU)/disSTD)
+
+
+X = pd.concat([raw['Year'], raw['Distance zscore'], raw['Owner'], makes, drives],axis=1)
 y = raw['Price']
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
@@ -30,6 +35,8 @@ Data-prep:
 '''
 
 print(X.head(10))
+
+
 
 
 

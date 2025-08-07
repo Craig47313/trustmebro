@@ -30,47 +30,36 @@ X = pd.concat([raw['Year'], raw['Distance zscore'], raw['Owner'], makes, drives]
 y = raw['Price']
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-<<<<<<< HEAD
-#Train Model
-rf = RandomForestRegressor(random_state=4)
-rf.fit(X_train, y_train)
-
-#Evalutaion
-print('X test[0]:')
-print(X_train.iloc[2])
-print('Prediction:')
-print(rf.predict(X_train.iloc[[2]]))
-print('Answer')
-print(y_train.iloc[2])
-=======
 from sklearn.linear_model import LinearRegression
 
 rf = LinearRegression()
+#Train Model
+rf = RandomForestRegressor(random_state=4)
 rf.fit(X_train, y_train)
 
 
 print('train')
 preds = rf.predict(X_train)
->>>>>>> b38f236 (tets)
 
 mse = np.mean(pow(preds - y_train, 2))
-
 print(np.sqrt(mse))
-
 nrmse = np.sqrt(mse) / np.mean(y_train)
-
 print('test')
+
+
+
 preds = rf.predict(X_test)
 
+from sklearn.model_selection import KFold, cross_val_score
+
+r2 = cross_val_score(rf, X_test, y_test, cv='kf')
+
+
 mse = np.mean(pow(preds - y_test, 2))
-
 print(np.sqrt(mse))
-
 nrmse = np.sqrt(mse) / np.mean(y_test)
-
-
-
 print(nrmse)
+
 #print(X.head(10))
 
 

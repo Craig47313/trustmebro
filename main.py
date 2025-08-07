@@ -29,5 +29,24 @@ X = pd.concat([raw['Year'], raw['Distance zscore'], raw['Owner'], makes, drives]
 y = raw['Price']
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-print(X.head(10))
+from sklearn.ensemble import RandomForestRegressor
+
+rf = RandomForestRegressor(random_state=4)
+rf.fit(X_train, y_train)
+
+
+print('X test[0]:')
+print(X_train.iloc[2])
+print('Prediction:')
+print(rf.predict(X_train.iloc[[2]]))
+print('Answer')
+print(y_train.iloc[2])
+
+#print(X.head(10))
+
+
+
+
+
+
 print(''.join(np.repeat('-=+=-<->', 15)))

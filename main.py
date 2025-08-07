@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
 
 print(''.join(np.repeat('\n', 10)))
 
@@ -29,12 +30,11 @@ X = pd.concat([raw['Year'], raw['Distance zscore'], raw['Owner'], makes, drives]
 y = raw['Price']
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-from sklearn.ensemble import RandomForestRegressor
-
+#Train Model
 rf = RandomForestRegressor(random_state=4)
 rf.fit(X_train, y_train)
 
-
+#Evalutaion
 print('X test[0]:')
 print(X_train.iloc[2])
 print('Prediction:')

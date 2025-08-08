@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split, KFold, cross_val_score
-from sklearn.ensemble import RandomForestRegressor 
+from sklearn.ensemble import RandomForestRegressor
 
 print(''.join(np.repeat('\n', 10)))
 
@@ -44,7 +44,10 @@ preds = rf.predict(X_test)
 
 #Evaluate Model
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
+mse = -cross_val_score(rf, X_test, y_test,cv=kf, scoring='neg_mean_squared_error')
 r2 = cross_val_score(rf, X_test, y_test, cv=kf, scoring='r2')
-print(f'{r2.mean():.4f}(±{r2.std():.4f})')
-
+print(f'The MSE = {mse.mean():.2f}(±{mse.std():.2f})')
+print(f'The RMSE = {np.sqrt(mse.mean()):.2f}')
+print(f'The N-RMSE = {np.sqrt(mse.mean()) / np.mean(y_test):.2f}')
+print(f'The R2 = {r2.mean():.4f}(±{r2.std():.4f})')
 print(''.join(np.repeat('-=+=-<->', 15)))

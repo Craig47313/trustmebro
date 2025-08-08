@@ -46,6 +46,10 @@ preds = rf.predict(X_test)
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
 mse = -cross_val_score(rf, X_test, y_test,cv=kf, scoring='neg_mean_squared_error')
 r2 = cross_val_score(rf, X_test, y_test, cv=kf, scoring='r2')
+
+
+#Print Results
+print(''.join(np.repeat('-=+=-<->', 15)))
 print(f'The MSE = {mse.mean():.2f}(±{mse.std():.2f})')
 print(f'The RMSE = {np.sqrt(mse.mean()):.2f}')
 print(f'The N-RMSE = {np.sqrt(mse.mean()) / np.mean(y_test):.2f}')
